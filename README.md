@@ -6,15 +6,15 @@ The code here isn't great and is primarily meant for illustrating concepts. Plea
 # Usage
 Once you've got a project address and a Discord webhook URL, simply run:
 
-1. Rename `.env-example` to `.env`.
+1. Run `npm install` or yarn `yarn install`.
 
-2. Add environment variables
-```
-PROJECT_ADDRESS=<add_verified_creator_here>
-DISCORD_URL=<discord_webhook_url_here>
-```
+2. Rename `.env-example` to `.env`.
 
-3. Simply Run
+3. Add environment variables
+```PROJECT_ADDRESS=<add_verified_creator_here>
+DISCORD_URL=<discord_webhook_url_here>```
+
+4. Simply Run
 ```node sales_bot.js```
 
 # Caveats
