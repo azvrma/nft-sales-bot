@@ -2,12 +2,19 @@ const solanaWeb3 = require('@solana/web3.js');
 const { Connection, programs } = require('@metaplex/js');
 const axios = require('axios');
 
-if (!process.env.PROJECT_ADDRESS || !process.env.DISCORD_URL) {
+require('dotenv').config();
+
+const projectURL = process.env.PROJECT_ADDRESS;
+const discordURL = process.env.DISCORD_URL;
+
+if (!projectURL || !discordURL) {
     console.log("please set your environment variables!");
     return;
 }
 
-const projectPubKey = new solanaWeb3.PublicKey(process.env.PROJECT_ADDRESS);
+
+// const projectPubKey = new solanaWeb3.PublicKey(process.env.PROJECT_ADDRESS);
+const projectPubKey = new solanaWeb3.PublicKey(projectURL);
 const url = solanaWeb3.clusterApiUrl('mainnet-beta');
 const solanaConnection = new solanaWeb3.Connection(url, 'confirmed');
 const metaplexConnection = new Connection('mainnet-beta');
@@ -15,6 +22,7 @@ const { metadata: { Metadata } } = programs;
 const pollingInterval = 2000; // ms
 const marketplaceMap = {
     "MEisE1HzehtrDpAAT8PnLHjpSSkRYakotTuJRPjTpo8": "Magic Eden",
+    "M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K": "MagicEden V2",
     "HZaWndaNWHFDd9Dhk5pqUUtsmoBCqzb1MLu3NAh1VX6B": "Alpha Art",
     "617jbWo616ggkDxvW1Le8pV38XLbVSyWY8ae6QUmGBAU": "Solsea",
     "CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz": "Solanart",
@@ -85,6 +93,67 @@ const printSalesInfo = (date, price, signature, title, marketplace, imageURL) =>
     console.log("Name: ", title)
     console.log("Image: ", imageURL)
     console.log("Marketplace: ", marketplace)
+
+    axios.post(discordURL,
+        {
+            "embeds": [
+                {
+                "title": `${title} has been sold! :moneybag:`,
+
+                    //greencolor
+                "color": 4321431, 
+
+                    //yellowcolor
+                // "color": 16172079,
+
+                    //orangecolor
+                // "color": 15695665,
+
+
+                    //pinkcolor
+                // "color": 16065893,
+
+
+                    //bluecolor
+                // "color": 39129,
+
+                    //redcolor
+                // "color": 15879747,
+
+                "url": `https://explorer.solana.com/tx/${signature}`,
+                "image": {
+                    "url": `${imageURL}`
+                },
+                "footer": {
+                    "text": "powered by Kawaii Animals Club",
+                    "icon_url": "https://i.imgur.com/zkt2StD.png"
+                },
+                    "fields": [
+                    {
+                        "name": "ITEM",
+                        "value": `${title}`,
+                        "inline": false
+                    },
+                    {
+                        "name": "Selling Price",
+                        "value": `${price} Sol`,
+                        "inline": true
+                    },
+                    {
+                        "name": "Marketplace",
+                        "value": `${marketplace}`,
+                        "inline": true
+                    },
+                    {
+                        "name": "Transaction",
+                        "value": `https://explorer.solana.com/tx/${signature}`,
+                        "inline": false
+                    }
+                    ]
+                }
+            ]
+        }
+    )
 }
 
 const timer = ms => new Promise(res => setTimeout(res, ms))
@@ -101,34 +170,3 @@ const getMetadata = async (tokenPubKey) => {
     }
 }
 
-const postSaleToDiscord = (title, price, date, signature, imageURL) => {
-    axios.post(process.env.DISCORD_URL,
-        {
-            "embeds": [
-                {
-                    "title": `SALE`,
-                    "description": `${title}`,
-                    "fields": [
-                        {
-                            "name": "Price",
-                            "value": `${price} SOL`,
-                            "inline": true
-                        },
-                        {
-                            "name": "Date",
-                            "value": `${date}`,
-                            "inline": true
-                        },
-                        {
-                            "name": "Explorer",
-                            "value": `https://explorer.solana.com/tx/${signature}`
-                        }
-                    ],
-                    "image": {
-                        "url": `${imageURL}`,
-                    }
-                }
-            ]
-        }
-    )
-}
