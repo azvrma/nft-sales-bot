@@ -11,8 +11,10 @@ Once you've got a project address and a Discord webhook URL, simply run:
 2. Rename `.env-example` to `.env`.
 
 3. Add environment variables
-```PROJECT_ADDRESS=<add_verified_creator_here>
-DISCORD_URL=<discord_webhook_url_here>```
+```
+PROJECT_ADDRESS=<add_verified_creator_here>
+DISCORD_URL=<discord_webhook_url_here>
+```
 
 4. Simply Run
 ```node sales_bot.js```
