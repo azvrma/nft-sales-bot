@@ -6,7 +6,16 @@ The code here isn't great and is primarily meant for illustrating concepts. Plea
 # Usage
 Once you've got a project address and a Discord webhook URL, simply run:
 
-`PROJECT_ADDRESS=insert-address DISCORD_URL=insert-webhook node sales_bot.js`
+1. Rename `.env-example` to `.env`.
+
+2. Add environment variables
+```
+PROJECT_ADDRESS=<add_verified_creator_here>
+DISCORD_URL=<discord_webhook_url_here>
+```
+
+3. Simply Run
+```node sales_bot.js```
 
 # Caveats
 The way the bot is currently set up, it fetches the last 1000 signatures by default. This is on purpose - as I like backfilling historic sales when I add a bot to Discord.
@@ -35,4 +44,4 @@ For example:
 Alternatively, you can set a new Date during bootup and make sure that new sales occured after this date.
 
 # Issues
-Sometimes there are problems with the Metaplex API, if this happens, please use the Magic Eden API for getting the metadata (I go over this in the Medium post), i.e., `https://api-mainnet.magiceden.io/rpc/getNFTByMintAddress/{paste-mint-address-here`
+Sometimes there are problems with the Metaplex API, if this happens, please use the Magic Eden API for getting the metadata (I go over this in the Medium post), i.e., `https://api-mainnet.magiceden.io/rpc/getNFTByMintAddress/{paste-mint-address-here}`
